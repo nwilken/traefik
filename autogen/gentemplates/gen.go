@@ -1365,9 +1365,7 @@ var _templatesKubernetesTmpl = []byte(`[backends]
 
     {{if $frontend.Auth }}
     [frontends."{{ $frontendName }}".auth]
-      {{if $frontend.Auth.HeaderField }}
-      headerField = "{{ $frontend.Auth.HeaderField }}"
-      {{end}}
+      headerField = "X-WebAuth-User"
 
       {{if $frontend.Auth.Basic }}
       [frontends."{{ $frontendName }}".auth.basic]
