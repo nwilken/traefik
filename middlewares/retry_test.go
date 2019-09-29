@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"net/http/httptrace"
-	"strconv"
 	"strings"
 	"testing"
 
@@ -36,7 +35,7 @@ func TestRetry(t *testing.T) {
 			desc:                  "no retry when max request attempts is one",
 			maxRequestAttempts:    1,
 			wantRetryAttempts:     0,
-			wantResponseStatus:    http.StatusBadGateway,
+			wantResponseStatus:    http.StatusInternalServerError,
 			amountFaultyEndpoints: 1,
 		},
 		{
@@ -57,7 +56,7 @@ func TestRetry(t *testing.T) {
 			desc:                  "max attempts exhausted delivers the 5xx response",
 			maxRequestAttempts:    3,
 			wantRetryAttempts:     2,
-			wantResponseStatus:    http.StatusBadGateway,
+			wantResponseStatus:    http.StatusInternalServerError,
 			amountFaultyEndpoints: 3,
 		},
 	}
@@ -83,18 +82,17 @@ func TestRetry(t *testing.T) {
 				t.Fatalf("Error creating load balancer: %s", err)
 			}
 
-			// out of range port
-			basePort := 1133444
+			basePort := 33444
 			for i := 0; i < test.amountFaultyEndpoints; i++ {
 				// 192.0.2.0 is a non-routable IP for testing purposes.
 				// See: https://stackoverflow.com/questions/528538/non-routable-ip-address/18436928#18436928
 				// We only use the port specification here because the URL is used as identifier
 				// in the load balancer and using the exact same URL would not add a new server.
-				_ = loadBalancer.UpsertServer(testhelpers.MustParseURL("http://192.0.2.0:" + strconv.Itoa(basePort+i)))
+				loadBalancer.UpsertServer(testhelpers.MustParseURL("http://192.0.2.0:" + string(basePort+i)))
 			}
 
 			// add the functioning server to the end of the load balancer list
-			_ = loadBalancer.UpsertServer(testhelpers.MustParseURL(backendServer.URL))
+			loadBalancer.UpsertServer(testhelpers.MustParseURL(backendServer.URL))
 
 			retryListener := &countingRetryListener{}
 			retry := NewRetry(test.maxRequestAttempts, loadBalancer, retryListener)
@@ -156,18 +154,17 @@ func TestRetryWebsocket(t *testing.T) {
 				t.Fatalf("Error creating load balancer: %s", err)
 			}
 
-			// out of range port
-			basePort := 1133444
+			basePort := 33444
 			for i := 0; i < test.amountFaultyEndpoints; i++ {
 				// 192.0.2.0 is a non-routable IP for testing purposes.
 				// See: https://stackoverflow.com/questions/528538/non-routable-ip-address/18436928#18436928
 				// We only use the port specification here because the URL is used as identifier
 				// in the load balancer and using the exact same URL would not add a new server.
-				_ = loadBalancer.UpsertServer(testhelpers.MustParseURL("http://192.0.2.0:" + strconv.Itoa(basePort+i)))
+				loadBalancer.UpsertServer(testhelpers.MustParseURL("http://192.0.2.0:" + string(basePort+i)))
 			}
 
 			// add the functioning server to the end of the load balancer list
-			_ = loadBalancer.UpsertServer(testhelpers.MustParseURL(backendServer.URL))
+			loadBalancer.UpsertServer(testhelpers.MustParseURL(backendServer.URL))
 
 			retryListener := &countingRetryListener{}
 			retry := NewRetry(test.maxRequestAttempts, loadBalancer, retryListener)

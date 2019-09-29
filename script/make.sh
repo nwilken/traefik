@@ -3,8 +3,9 @@ set -e
 
 # List of bundles to create when no argument is passed
 DEFAULT_BUNDLES=(
-	generate
 	validate-gofmt
+	validate-govet
+	generate
 	binary
 
 	test-unit
