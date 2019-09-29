@@ -12,10 +12,6 @@ type StickySession struct {
 }
 
 // NewStickySession creates a new StickySession
-func NewStickySession(cookieName string) *StickySession {
-	return &StickySession{cookieName: cookieName, cookiePath: "/"}
-}
-
 func NewStickySession(cookieName string, cookiePath string) *StickySession {
 	return &StickySession{cookieName: cookieName, cookiePath: cookiePath}
 }
