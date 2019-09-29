@@ -85,6 +85,7 @@ var _templatesConsul_catalogV1Tmpl = []byte(`[backends]
     {{if hasStickinessLabel .Attributes }}
     [backends."backend-{{ $service }}".loadbalancer.stickiness]
       cookieName = "{{ getStickinessCookieName .Attributes }}"
+      cookiePath = "{{ getStickinessCookiePath .Attributes }}"
     {{end}}
 
   {{if hasMaxconnAttributes .Attributes }}
@@ -159,6 +160,7 @@ var _templatesConsul_catalogTmpl = []byte(`[backends]
     {{if $loadBalancer.Stickiness }}
     [backends."backend-{{ $backendName }}".loadBalancer.stickiness]
       cookieName = "{{ $loadBalancer.Stickiness.CookieName }}"
+      cookiePath = "{{ $loadBalancer.Stickiness.CookiePath }}"
     {{end}}
   {{end}}
 
@@ -437,6 +439,7 @@ var _templatesDockerV1Tmpl = []byte(`{{$backendServers := .Servers}}
     {{if hasStickinessLabel $backend }}
     [backends."backend-{{ $backendName }}".loadbalancer.stickiness]
       cookieName = "{{ getStickinessCookieName $backend }}"
+      cookiePath = "{{ getStickinessCookiePath $backend }}"
     {{end}}
   {{end}}
 
@@ -654,6 +657,7 @@ var _templatesDockerTmpl = []byte(`{{$backendServers := .Servers}}
       {{if $loadBalancer.Stickiness }}
       [backends."backend-{{ $backendName }}".loadBalancer.stickiness]
         cookieName = "{{ $loadBalancer.Stickiness.CookieName }}"
+        cookiePath = "{{ $loadBalancer.Stickiness.CookiePath }}"
       {{end}}
   {{end}}
 
@@ -925,6 +929,7 @@ var _templatesEcsV1Tmpl = []byte(`[backends]
     {{if hasStickinessLabel $instances }}
     [backends."backend-{{ $serviceName }}".loadBalancer.stickiness]
       cookieName = "{{ getStickinessCookieName $instances }}"
+      cookiePath = "{{ getStickinessCookiePath $instances }}"
     {{end}}
 
     {{ if hasHealthCheckLabels $instances }}
@@ -1000,6 +1005,7 @@ var _templatesEcsTmpl = []byte(`[backends]
     {{if $loadBalancer.Stickiness }}
     [backends."backend-{{ $serviceName }}".loadBalancer.stickiness]
       cookieName = "{{ $loadBalancer.Stickiness.CookieName }}"
+      cookiePath = "{{ $loadBalancer.Stickiness.CookiePath }}"
     {{end}}
   {{end}}
 
@@ -1325,6 +1331,7 @@ var _templatesKubernetesTmpl = []byte(`[backends]
       {{if $backend.LoadBalancer.Stickiness }}
       [backends."{{ $backendName }}".loadBalancer.stickiness]
         cookieName = "{{ $backend.LoadBalancer.Stickiness.CookieName }}"
+        cookiePath = "{{ $backend.LoadBalancer.Stickiness.CookiePath }}"
       {{end}}
 
     {{if $backend.MaxConn }}
@@ -1580,6 +1587,7 @@ var _templatesKvTmpl = []byte(`[backends]
       {{if $loadBalancer.Stickiness }}
       [backends."{{ $backendName }}".loadBalancer.stickiness]
         cookieName = "{{ $loadBalancer.Stickiness.CookieName }}"
+        cookiePath = "{{ $loadBalancer.Stickiness.CookiePath }}"
       {{end}}
   {{end}}
 
@@ -1885,6 +1893,7 @@ var _templatesMarathonV1Tmpl = []byte(`{{$apps := .Applications}}
     {{if hasStickinessLabel $app }}
     [backends."{{ getBackend $app $serviceName }}".loadBalancer.stickiness]
       cookieName = "{{ getStickinessCookieName $app }}"
+      cookiePath = "{{ getStickinessCookiePath $app }}"
     {{end}}
   {{end}}
 
@@ -1968,6 +1977,7 @@ var _templatesMarathonTmpl = []byte(`{{ $apps := .Applications }}
       {{if $loadBalancer.Stickiness }}
       [backends."{{ $backendName }}".loadBalancer.stickiness]
         cookieName = "{{ $loadBalancer.Stickiness.CookieName }}"
+        cookiePath = "{{ $loadBalancer.Stickiness.CookiePath }}"
       {{end}}
     {{end}}
 
@@ -2300,6 +2310,7 @@ var _templatesMesosTmpl = []byte(`[backends]
       {{if $loadBalancer.Stickiness }}
       [backends."backend-{{ $backendName }}".loadBalancer.stickiness]
         cookieName = "{{ $loadBalancer.Stickiness.CookieName }}"
+        cookiePath = "{{ $loadBalancer.Stickiness.CookiePath }}"
       {{end}}
   {{end}}
 
@@ -2601,6 +2612,7 @@ var _templatesRancherV1Tmpl = []byte(`{{$backendServers := .Backends}}
     {{if hasStickinessLabel $backend }}
     [backends."backend-{{ $backendName }}".loadBalancer.stickiness]
       cookieName = "{{ getStickinessCookieName $backend }}"
+      cookiePath = "{{ getStickinessCookiePath $backend }}"
     {{end}}
   {{end}}
 
@@ -2686,6 +2698,7 @@ var _templatesRancherTmpl = []byte(`{{ $backendServers := .Backends }}
       {{if $loadBalancer.Stickiness }}
       [backends."backend-{{ $backendName }}".loadBalancer.stickiness]
         cookieName = "{{ $loadBalancer.Stickiness.CookieName }}"
+        cookiePath = "{{ $loadBalancer.Stickiness.CookiePath }}"
       {{end}}
   {{end}}
 

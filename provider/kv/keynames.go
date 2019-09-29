@@ -14,6 +14,7 @@ const (
 	pathBackendLoadBalancerSticky               = "/loadbalancer/sticky"
 	pathBackendLoadBalancerStickiness           = "/loadbalancer/stickiness"
 	pathBackendLoadBalancerStickinessCookieName = "/loadbalancer/stickiness/cookiename"
+	pathBackendLoadBalancerStickinessCookiePath = "/loadbalancer/stickiness/cookiepath"
 	pathBackendMaxConnAmount                    = "/maxconn/amount"
 	pathBackendMaxConnExtractorFunc             = "/maxconn/extractorfunc"
 	pathBackendServers                          = "/servers/"

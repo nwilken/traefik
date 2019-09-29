@@ -563,6 +563,12 @@
                                 <span class="tag is-info">{{ p.loadBalancer.stickiness.cookieName }}</span>
                               </div>
                             </div>
+                            <div class="control" *ngIf="p.loadBalancer.stickiness">
+                              <div class="tags has-addons">
+                                <span class="tag is-light">Cookie Path</span>
+                                <span class="tag is-info">{{ p.loadBalancer.stickiness.cookiePath }}</span>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>

@@ -132,6 +132,7 @@ func TestBuildConfigurationV1(t *testing.T) {
 							label.TraefikBackendLoadBalancerSticky:               aws.String("true"),
 							label.TraefikBackendLoadBalancerStickiness:           aws.String("true"),
 							label.TraefikBackendLoadBalancerStickinessCookieName: aws.String("chocolate"),
+							label.TraefikBackendLoadBalancerStickinessCookiePath: aws.String("/vanilla"),
 
 							label.TraefikFrontendAuthBasic:      aws.String("test:$apr1$H6uskkkW$IgXLP6ewTrSuBkTrqE8wj/,test2:$apr1$d9hr9HBB$4HxwgUir3HP4EsggP/QNo0"),
 							label.TraefikFrontendEntryPoints:    aws.String("http,https"),
@@ -160,6 +161,7 @@ func TestBuildConfigurationV1(t *testing.T) {
 							Sticky: true,
 							Stickiness: &types.Stickiness{
 								CookieName: "chocolate",
+								CookiePath: "/vanilla",
 							},
 						},
 						HealthCheck: &types.HealthCheck{
@@ -209,6 +211,7 @@ func TestBuildConfigurationV1(t *testing.T) {
 							label.TraefikBackendLoadBalancerSticky:               aws.String("true"),
 							label.TraefikBackendLoadBalancerStickiness:           aws.String("true"),
 							label.TraefikBackendLoadBalancerStickinessCookieName: aws.String("chocolate"),
+							label.TraefikBackendLoadBalancerStickinessCookiePath: aws.String("/vanilla"),
 
 							label.TraefikFrontendAuthBasic:      aws.String("test:$apr1$H6uskkkW$IgXLP6ewTrSuBkTrqE8wj/,test2:$apr1$d9hr9HBB$4HxwgUir3HP4EsggP/QNo0"),
 							label.TraefikFrontendEntryPoints:    aws.String("http,https"),
@@ -238,6 +241,7 @@ func TestBuildConfigurationV1(t *testing.T) {
 							label.TraefikBackendLoadBalancerSticky:               aws.String("true"),
 							label.TraefikBackendLoadBalancerStickiness:           aws.String("true"),
 							label.TraefikBackendLoadBalancerStickinessCookieName: aws.String("chocolate"),
+							label.TraefikBackendLoadBalancerStickinessCookiePath: aws.String("/vanilla"),
 
 							label.TraefikFrontendAuthBasic:      aws.String("test:$apr1$H6uskkkW$IgXLP6ewTrSuBkTrqE8wj/,test2:$apr1$d9hr9HBB$4HxwgUir3HP4EsggP/QNo0"),
 							label.TraefikFrontendEntryPoints:    aws.String("http,https"),
@@ -270,6 +274,7 @@ func TestBuildConfigurationV1(t *testing.T) {
 							Sticky: true,
 							Stickiness: &types.Stickiness{
 								CookieName: "chocolate",
+								CookiePath: "/vanilla",
 							},
 						},
 						HealthCheck: &types.HealthCheck{

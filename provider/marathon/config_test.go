@@ -369,6 +369,7 @@ func TestBuildConfiguration(t *testing.T) {
 					withLabel(label.TraefikBackendLoadBalancerSticky, "true"),
 					withLabel(label.TraefikBackendLoadBalancerStickiness, "true"),
 					withLabel(label.TraefikBackendLoadBalancerStickinessCookieName, "chocolate"),
+					withLabel(label.TraefikBackendLoadBalancerStickinessCookiePath, "/vanilla"),
 					withLabel(label.TraefikBackendMaxConnAmount, "666"),
 					withLabel(label.TraefikBackendMaxConnExtractorFunc, "client.ip"),
 					withLabel(label.TraefikBackendBufferingMaxResponseBodyBytes, "10485760"),
@@ -613,6 +614,7 @@ func TestBuildConfiguration(t *testing.T) {
 						Sticky: true,
 						Stickiness: &types.Stickiness{
 							CookieName: "chocolate",
+							CookiePath: "/vanilla",
 						},
 					},
 					MaxConn: &types.MaxConn{

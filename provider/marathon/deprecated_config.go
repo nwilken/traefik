@@ -36,6 +36,7 @@ func (p *Provider) buildConfigurationV1(applications *marathon.Applications) *ty
 		"getSticky":                   getStickyV1,
 		"hasStickinessLabel":          hasFuncV1(label.TraefikBackendLoadBalancerStickiness),
 		"getStickinessCookieName":     getFuncStringV1(label.TraefikBackendLoadBalancerStickinessCookieName, ""),
+		"getStickinessCookiePath":     getFuncStringV1(label.TraefikBackendLoadBalancerStickinessCookiePath, ""),
 		"hasMaxConnLabels":            hasMaxConnLabelsV1,
 		"getMaxConnExtractorFunc":     getFuncStringV1(label.TraefikBackendMaxConnExtractorFunc, label.DefaultBackendMaxconnExtractorFunc),
 		"getMaxConnAmount":            getFuncInt64V1(label.TraefikBackendMaxConnAmount, math.MaxInt64),

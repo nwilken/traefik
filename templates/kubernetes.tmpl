@@ -19,6 +19,7 @@
       {{if $backend.LoadBalancer.Stickiness }}
       [backends."{{ $backendName }}".loadBalancer.stickiness]
         cookieName = "{{ $backend.LoadBalancer.Stickiness.CookieName }}"
+        cookiePath = "{{ $backend.LoadBalancer.Stickiness.CookiePath }}"
       {{end}}
 
     {{if $backend.MaxConn }}

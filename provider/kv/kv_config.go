@@ -67,6 +67,7 @@ func (p *Provider) buildConfiguration() (*types.Configuration, error) {
 		"getSticky":               p.getSticky,               // Deprecated [breaking]
 		"hasStickinessLabel":      p.hasStickinessLabel,      // Deprecated [breaking]
 		"getStickinessCookieName": p.getStickinessCookieName, // Deprecated [breaking]
+		"getStickinessCookiePath": p.getStickinessCookiePath, // Deprecated [breaking]
 	}
 
 	configuration, err := p.safeGetConfiguration("templates/kv.tmpl", kvFuncMap, templateObjects)
@@ -138,6 +139,11 @@ func (p *Provider) hasStickinessLabel(rootPath string) bool {
 // Deprecated
 func (p *Provider) getStickinessCookieName(rootPath string) string {
 	return p.get("", rootPath, pathBackendLoadBalancerStickinessCookieName)
+}
+
+// Deprecated
+func (p *Provider) getStickinessCookiePath(rootPath string) string {
+	return p.get("", rootPath, pathBackendLoadBalancerStickinessCookiePath)
 }
 
 func (p *Provider) getWhiteList(rootPath string) *types.WhiteList {
@@ -276,6 +282,7 @@ func (p *Provider) getLoadBalancer(rootPath string) *types.LoadBalancer {
 	if p.getBool(false, rootPath, pathBackendLoadBalancerStickiness) {
 		lb.Stickiness = &types.Stickiness{
 			CookieName: p.get("", rootPath, pathBackendLoadBalancerStickinessCookieName),
+			CookiePath: p.get("", rootPath, pathBackendLoadBalancerStickinessCookiePath),
 		}
 	}
 

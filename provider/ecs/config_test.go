@@ -353,6 +353,7 @@ func TestBuildConfiguration(t *testing.T) {
 						label.TraefikBackendLoadBalancerSticky:               aws.String("true"),
 						label.TraefikBackendLoadBalancerStickiness:           aws.String("true"),
 						label.TraefikBackendLoadBalancerStickinessCookieName: aws.String("chocolate"),
+						label.TraefikBackendLoadBalancerStickinessCookiePath: aws.String("/vanilla"),
 						label.TraefikBackendMaxConnAmount:                    aws.String("666"),
 						label.TraefikBackendMaxConnExtractorFunc:             aws.String("client.ip"),
 						label.TraefikBackendBufferingMaxResponseBodyBytes:    aws.String("10485760"),
@@ -475,6 +476,7 @@ func TestBuildConfiguration(t *testing.T) {
 							Sticky: true,
 							Stickiness: &types.Stickiness{
 								CookieName: "chocolate",
+								CookiePath: "/vanilla",
 							},
 						},
 						MaxConn: &types.MaxConn{
@@ -662,6 +664,7 @@ func TestBuildConfiguration(t *testing.T) {
 						label.TraefikBackendLoadBalancerSticky:               aws.String("true"),
 						label.TraefikBackendLoadBalancerStickiness:           aws.String("true"),
 						label.TraefikBackendLoadBalancerStickinessCookieName: aws.String("chocolate"),
+						label.TraefikBackendLoadBalancerStickinessCookiePath: aws.String("/vanilla"),
 						label.TraefikBackendMaxConnAmount:                    aws.String("666"),
 						label.TraefikBackendMaxConnExtractorFunc:             aws.String("client.ip"),
 						label.TraefikBackendBufferingMaxResponseBodyBytes:    aws.String("10485760"),
@@ -750,6 +753,7 @@ func TestBuildConfiguration(t *testing.T) {
 						label.TraefikBackendLoadBalancerSticky:               aws.String("true"),
 						label.TraefikBackendLoadBalancerStickiness:           aws.String("true"),
 						label.TraefikBackendLoadBalancerStickinessCookieName: aws.String("chocolate"),
+						label.TraefikBackendLoadBalancerStickinessCookiePath: aws.String("/vanilla"),
 						label.TraefikBackendMaxConnAmount:                    aws.String("666"),
 						label.TraefikBackendMaxConnExtractorFunc:             aws.String("client.ip"),
 						label.TraefikBackendBufferingMaxResponseBodyBytes:    aws.String("10485760"),
@@ -839,6 +843,7 @@ func TestBuildConfiguration(t *testing.T) {
 							Sticky: true,
 							Stickiness: &types.Stickiness{
 								CookieName: "chocolate",
+								CookiePath: "/vanilla",
 							},
 						},
 						MaxConn: &types.MaxConn{

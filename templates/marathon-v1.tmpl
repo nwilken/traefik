@@ -27,6 +27,7 @@
     {{if hasStickinessLabel $app }}
     [backends."{{ getBackend $app $serviceName }}".loadBalancer.stickiness]
       cookieName = "{{ getStickinessCookieName $app }}"
+      cookiePath = "{{ getStickinessCookiePath $app }}"
     {{end}}
   {{end}}
 

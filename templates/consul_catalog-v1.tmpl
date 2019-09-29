@@ -23,6 +23,7 @@
     {{if hasStickinessLabel .Attributes }}
     [backends."backend-{{ $service }}".loadbalancer.stickiness]
       cookieName = "{{ getStickinessCookieName .Attributes }}"
+      cookiePath = "{{ getStickinessCookiePath .Attributes }}"
     {{end}}
 
   {{if hasMaxconnAttributes .Attributes }}

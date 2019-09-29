@@ -55,3 +55,23 @@ func sanitizeName(backend string) string {
 
 	return strings.Map(sanitizer, backend)
 }
+
+// GetPath of a cookie
+func GetPath(cookiePath string) string {
+	if len(cookiePath) != 0 {
+		return sanitizePath(cookiePath)
+	}
+
+	return "/"
+}
+
+// sanitizePath According to [RFC 6265](https://www.ietf.org/rfc/rfc6265.txt) section 4.1.1
+func sanitizePath(path string) string {
+	for _, r := range path {
+		if r < 0x20 || r == ';' || r >= 0x7F {
+			return "/"
+		}
+	}
+
+	return path
+}

@@ -29,6 +29,7 @@ func (p *Provider) buildConfigurationV1(services []rancherData) *types.Configura
 		"getSticky":                   getStickyV1,
 		"hasStickinessLabel":          hasFuncV1(label.TraefikBackendLoadBalancerStickiness),
 		"getStickinessCookieName":     getFuncStringV1(label.TraefikBackendLoadBalancerStickinessCookieName, label.DefaultBackendLoadbalancerStickinessCookieName),
+		"getStickinessCookiePath":     getFuncStringV1(label.TraefikBackendLoadBalancerStickinessCookiePath, label.DefaultBackendLoadbalancerStickinessCookiePath),
 
 		// Frontend functions
 		"getBackend":             getBackendNameV1,
@@ -143,7 +144,8 @@ func hasLoadBalancerLabel(service rancherData) bool {
 	sticky := label.Has(service.Labels, label.TraefikBackendLoadBalancerSticky)
 	stickiness := label.Has(service.Labels, label.TraefikBackendLoadBalancerStickiness)
 	cookieName := label.Has(service.Labels, label.TraefikBackendLoadBalancerStickinessCookieName)
-	return method || sticky || stickiness || cookieName
+	cookiePath := label.Has(service.Labels, label.TraefikBackendLoadBalancerStickinessCookiePath)
+	return method || sticky || stickiness || cookieName || cookiePath
 }
 
 // Deprecated

@@ -437,6 +437,7 @@ For example:
 Sticky sessions are supported with both load balancers.  
 When sticky sessions are enabled, a cookie is set on the initial request.
 The default cookie name is an abbreviation of a sha1 (ex: `_1d52e`).
+The default cookie path is `/`.
 On subsequent requests, the client will be directed to the backend stored in the cookie if it is still healthy.
 If not, a new backend will be assigned.
 
@@ -452,6 +453,13 @@ If not, a new backend will be assigned.
     # Default: a sha1 (6 chars)
     #
     #  cookieName = "my_cookie"
+
+    # Customize the cookie path
+    #
+    # Optional
+    # Default: /
+    #
+    #  cookiePath = "/my_path"
 ```
 
 The deprecated way:

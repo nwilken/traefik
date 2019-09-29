@@ -7,6 +7,7 @@
     {{if hasStickinessLabel $instances }}
     [backends."backend-{{ $serviceName }}".loadBalancer.stickiness]
       cookieName = "{{ getStickinessCookieName $instances }}"
+      cookiePath = "{{ getStickinessCookiePath $instances }}"
     {{end}}
 
     {{ if hasHealthCheckLabels $instances }}

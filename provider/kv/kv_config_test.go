@@ -260,6 +260,7 @@ func TestProviderBuildConfiguration(t *testing.T) {
 					withPair(pathBackendLoadBalancerSticky, "true"),
 					withPair(pathBackendLoadBalancerStickiness, "true"),
 					withPair(pathBackendLoadBalancerStickinessCookieName, "tomate"),
+					withPair(pathBackendLoadBalancerStickinessCookiePath, "/patata"),
 					withPair(pathBackendHealthCheckScheme, "http"),
 					withPair(pathBackendHealthCheckPath, "/health"),
 					withPair(pathBackendHealthCheckPort, "80"),
@@ -389,6 +390,7 @@ func TestProviderBuildConfiguration(t *testing.T) {
 							Sticky: true,
 							Stickiness: &types.Stickiness{
 								CookieName: "tomate",
+								CookiePath: "/patata",
 							},
 						},
 						MaxConn: &types.MaxConn{
@@ -1370,6 +1372,7 @@ func TestProviderHasStickinessLabel(t *testing.T) {
 			kvPairs: filler("traefik",
 				backend("foo",
 					withPair(pathBackendLoadBalancerStickinessCookieName, "aubergine"),
+					withPair(pathBackendLoadBalancerStickinessCookiePath, "/eggplant"),
 				),
 			),
 			expected: false,
@@ -1950,11 +1953,13 @@ func TestProviderGetLoadBalancer(t *testing.T) {
 					withPair(pathBackendLoadBalancerSticky, "true"),
 					withPair(pathBackendLoadBalancerStickiness, "true"),
 					withPair(pathBackendLoadBalancerStickinessCookieName, "aubergine"))),
+					withPair(pathBackendLoadBalancerStickinessCookiePath, "/eggplant"))),
 			expected: &types.LoadBalancer{
 				Method: "drr",
 				Sticky: true,
 				Stickiness: &types.Stickiness{
 					CookieName: "aubergine",
+					CookiePath: "/eggplant",
 				},
 			},
 		},
@@ -2004,11 +2009,13 @@ func TestProviderGetLoadBalancer(t *testing.T) {
 			kvPairs: filler("traefik",
 				backend("foo",
 					withPair(pathBackendLoadBalancerStickiness, "true"),
-					withPair(pathBackendLoadBalancerStickinessCookieName, "aubergine"))),
+					withPair(pathBackendLoadBalancerStickinessCookieName, "aubergine"),
+					withPair(pathBackendLoadBalancerStickinessCookiePath, "/eggplant"))),
 			expected: &types.LoadBalancer{
 				Method: "wrr",
 				Stickiness: &types.Stickiness{
 					CookieName: "aubergine",
+					CookiePath: "/eggplant",
 				},
 			},
 		},
@@ -2017,7 +2024,8 @@ func TestProviderGetLoadBalancer(t *testing.T) {
 			rootPath: "traefik/backends/foo",
 			kvPairs: filler("traefik",
 				backend("foo",
-					withPair(pathBackendLoadBalancerStickinessCookieName, "aubergine"))),
+					withPair(pathBackendLoadBalancerStickinessCookieName, "aubergine"),
+					withPair(pathBackendLoadBalancerStickinessCookiePath, "/eggplant"))),
 			expected: &types.LoadBalancer{
 				Method: "wrr",
 			},

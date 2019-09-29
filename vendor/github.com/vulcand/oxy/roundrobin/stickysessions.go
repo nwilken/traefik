@@ -8,11 +8,16 @@ import (
 // StickySession is a mixin for load balancers that implements layer 7 (http cookie) session affinity
 type StickySession struct {
 	cookieName string
+	cookiePath string
 }
 
 // NewStickySession creates a new StickySession
 func NewStickySession(cookieName string) *StickySession {
-	return &StickySession{cookieName: cookieName}
+	return &StickySession{cookieName: cookieName, cookiePath: "/"}
+}
+
+func NewStickySession(cookieName string, cookiePath string) *StickySession {
+	return &StickySession{cookieName: cookieName, cookiePath: cookiePath}
 }
 
 // GetBackend returns the backend URL stored in the sticky cookie, iff the backend is still in the valid list of servers.
@@ -39,7 +44,7 @@ func (s *StickySession) GetBackend(req *http.Request, servers []*url.URL) (*url.
 
 // StickBackend creates and sets the cookie
 func (s *StickySession) StickBackend(backend *url.URL, w *http.ResponseWriter) {
-	cookie := &http.Cookie{Name: s.cookieName, Value: backend.String(), Path: "/"}
+	cookie := &http.Cookie{Name: s.cookieName, Value: backend.String(), Path: s.cookiePath}
 	http.SetCookie(*w, cookie)
 }
 

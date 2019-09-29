@@ -257,12 +257,14 @@ func TestGetLoadBalancer(t *testing.T) {
 				TraefikBackendLoadBalancerSticky:               "true",
 				TraefikBackendLoadBalancerStickiness:           "true",
 				TraefikBackendLoadBalancerStickinessCookieName: "foo",
+				TraefikBackendLoadBalancerStickinessCookiePath: "/bar",
 			},
 			expected: &types.LoadBalancer{
 				Method: "drr",
 				Sticky: true,
 				Stickiness: &types.Stickiness{
 					CookieName: "foo",
+					CookieName: "/bar",
 				},
 			},
 		},
@@ -272,6 +274,7 @@ func TestGetLoadBalancer(t *testing.T) {
 				TraefikBackendLoadBalancerMethod:               "drr",
 				TraefikBackendLoadBalancerSticky:               "true",
 				TraefikBackendLoadBalancerStickinessCookieName: "foo",
+				TraefikBackendLoadBalancerStickinessCookiePath: "/bar",
 			},
 			expected: &types.LoadBalancer{
 				Method:     "drr",

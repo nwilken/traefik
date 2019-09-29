@@ -36,6 +36,7 @@ func (p *Provider) buildConfigurationV1(containersInspected []dockerData) *types
 		"getSticky":                   getStickyV1,
 		"hasStickinessLabel":          hasFuncV1(label.TraefikBackendLoadBalancerStickiness),
 		"getStickinessCookieName":     getFuncStringLabelV1(label.TraefikBackendLoadBalancerStickinessCookieName, label.DefaultBackendLoadbalancerStickinessCookieName),
+		"getStickinessCookiePath":     getFuncStringLabelV1(label.TraefikBackendLoadBalancerStickinessCookiePath, label.DefaultBackendLoadbalancerStickinessCookiePath),
 
 		// Frontend functions
 		"getBackend":              getBackendNameV1,

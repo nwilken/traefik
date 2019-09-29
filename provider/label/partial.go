@@ -422,7 +422,8 @@ func GetLoadBalancer(labels map[string]string) *types.LoadBalancer {
 
 	if GetBoolValue(labels, TraefikBackendLoadBalancerStickiness, false) {
 		cookieName := GetStringValue(labels, TraefikBackendLoadBalancerStickinessCookieName, DefaultBackendLoadbalancerStickinessCookieName)
-		lb.Stickiness = &types.Stickiness{CookieName: cookieName}
+		cookiePath := GetStringValue(labels, TraefikBackendLoadBalancerStickinessCookiePath, DefaultBackendLoadbalancerStickinessCookiePath)
+		lb.Stickiness = &types.Stickiness{CookieName: cookieName, CookiePath: cookiePath}
 	}
 
 	return lb

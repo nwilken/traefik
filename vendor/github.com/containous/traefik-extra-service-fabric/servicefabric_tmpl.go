@@ -43,6 +43,7 @@ const tmpl = `
             {{if $loadBalancer.Stickiness }}
             [backends."{{ $backendName }}".loadBalancer.stickiness]
               cookieName = "{{ $loadBalancer.Stickiness.CookieName }}"
+              cookiePath = "{{ $loadBalancer.Stickiness.CookiePath }}"
             {{end}}
         {{end}}
 

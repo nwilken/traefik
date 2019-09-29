@@ -29,6 +29,7 @@ func (p *Provider) buildConfigurationV1(catalog []catalogUpdate) *types.Configur
 		"getSticky":               p.getStickyV1,
 		"hasStickinessLabel":      p.hasStickinessLabelV1,
 		"getStickinessCookieName": p.getStickinessCookieNameV1,
+		"getStickinessCookiePath": p.getStickinessCookiePathV1,
 		"getWeight":               p.getWeight,
 		"getProtocol":             p.getFuncStringAttribute(label.SuffixProtocol, label.DefaultProtocol),
 
@@ -138,6 +139,11 @@ func (p *Provider) hasStickinessLabelV1(tags []string) bool {
 // Deprecated
 func (p *Provider) getStickinessCookieNameV1(tags []string) string {
 	return p.getAttribute(label.SuffixBackendLoadBalancerStickinessCookieName, tags, "")
+}
+
+// Deprecated
+func (p *Provider) getStickinessCookiePathV1(tags []string) string {
+	return p.getAttribute(label.SuffixBackendLoadBalancerStickinessCookiePath, tags, "")
 }
 
 // Base functions

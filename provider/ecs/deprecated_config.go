@@ -39,6 +39,7 @@ func (p *Provider) buildConfigurationV1(instances []ecsInstance) (*types.Configu
 		"getLoadBalancerSticky":   getStickyV1,
 		"hasStickinessLabel":      getFuncFirstBoolValueV1(label.TraefikBackendLoadBalancerStickiness, false),
 		"getStickinessCookieName": getFuncFirstStringValueV1(label.TraefikBackendLoadBalancerStickinessCookieName, label.DefaultBackendLoadbalancerStickinessCookieName),
+		"getStickinessCookiePath": getFuncFirstStringValueV1(label.TraefikBackendLoadBalancerStickinessCookiePath, label.DefaultBackendLoadbalancerStickinessCookiePath),
 		"hasHealthCheckLabels":    hasFuncFirstV1(label.TraefikBackendHealthCheckPath),
 		"getHealthCheckPath":      getFuncFirstStringValueV1(label.TraefikBackendHealthCheckPath, ""),
 		"getHealthCheckInterval":  getFuncFirstStringValueV1(label.TraefikBackendHealthCheckInterval, ""),

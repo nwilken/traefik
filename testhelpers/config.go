@@ -153,11 +153,11 @@ func WithFrontEndAuth(auth *types.Auth) func(*types.Frontend) {
 }
 
 // WithLBSticky is a helper to create a configuration
-func WithLBSticky(cookieName string) func(*types.Backend) {
+func WithLBSticky(cookieName string, cookiePath string) func(*types.Backend) {
 	return func(b *types.Backend) {
 		if b.LoadBalancer == nil {
 			b.LoadBalancer = &types.LoadBalancer{}
 		}
-		b.LoadBalancer.Stickiness = &types.Stickiness{CookieName: cookieName}
+		b.LoadBalancer.Stickiness = &types.Stickiness{CookieName: cookieName, CookiePath: cookiePath}
 	}
 }

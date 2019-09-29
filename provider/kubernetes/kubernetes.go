@@ -1083,6 +1083,9 @@ func getStickiness(service *corev1.Service) *types.Stickiness {
 		if cookieName := getStringValue(service.Annotations, annotationKubernetesSessionCookieName, ""); len(cookieName) > 0 {
 			stickiness.CookieName = cookieName
 		}
+		if cookiePath := getStringValue(service.Annotations, annotationKubernetesSessionCookiePath, ""); len(cookiePath) > 0 {
+			stickiness.CookiePath = cookiePath
+		}
 		return stickiness
 	}
 	return nil
