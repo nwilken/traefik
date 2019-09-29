@@ -10,7 +10,7 @@ import (
 	"log"
 	"strconv"
 
-	"gopkg.in/resty.v1"
+	"github.com/go-resty/resty"
 )
 
 // PageOptions are the pagination parameters for List endpoints
@@ -28,8 +28,8 @@ type ListOptions struct {
 
 // NewListOptions simplified construction of ListOptions using only
 // the two writable properties, Page and Filter
-func NewListOptions(page int, filter string) *ListOptions {
-	return &ListOptions{PageOptions: &PageOptions{Page: page}, Filter: filter}
+func NewListOptions(Page int, Filter string) *ListOptions {
+	return &ListOptions{PageOptions: &PageOptions{Page: Page}, Filter: Filter}
 
 }
 
@@ -102,7 +102,7 @@ func (c *Client) listHelper(ctx context.Context, i interface{}, opts *ListOption
 		if r, err = coupleAPIErrors(req.SetResult(DomainsPagedResponse{}).Get(v.endpoint(c))); err == nil {
 			response, ok := r.Result().(*DomainsPagedResponse)
 			if !ok {
-				return fmt.Errorf("response is not a *DomainsPagedResponse")
+				return fmt.Errorf("Response is not a *DomainsPagedResponse")
 			}
 			pages = response.Pages
 			results = response.Results
@@ -149,7 +149,7 @@ func (c *Client) listHelper(ctx context.Context, i interface{}, opts *ListOption
 		if r, err = coupleAPIErrors(req.SetResult(SSHKeysPagedResponse{}).Get(v.endpoint(c))); err == nil {
 			response, ok := r.Result().(*SSHKeysPagedResponse)
 			if !ok {
-				return fmt.Errorf("response is not a *SSHKeysPagedResponse")
+				return fmt.Errorf("Response is not a *SSHKeysPagedResponse")
 			}
 			pages = response.Pages
 			results = response.Results
@@ -173,50 +173,101 @@ func (c *Client) listHelper(ctx context.Context, i interface{}, opts *ListOption
 			results = r.Result().(*NotificationsPagedResponse).Results
 			v.appendData(r.Result().(*NotificationsPagedResponse))
 		}
-	case *OAuthClientsPagedResponse:
-		if r, err = coupleAPIErrors(req.SetResult(OAuthClientsPagedResponse{}).Get(v.endpoint(c))); err == nil {
-			pages = r.Result().(*OAuthClientsPagedResponse).Pages
-			results = r.Result().(*OAuthClientsPagedResponse).Results
-			v.appendData(r.Result().(*OAuthClientsPagedResponse))
-		}
-	case *PaymentsPagedResponse:
-		if r, err = coupleAPIErrors(req.SetResult(PaymentsPagedResponse{}).Get(v.endpoint(c))); err == nil {
-			pages = r.Result().(*PaymentsPagedResponse).Pages
-			results = r.Result().(*PaymentsPagedResponse).Results
-			v.appendData(r.Result().(*PaymentsPagedResponse))
-		}
 	case *NodeBalancersPagedResponse:
 		if r, err = coupleAPIErrors(req.SetResult(NodeBalancersPagedResponse{}).Get(v.endpoint(c))); err == nil {
 			pages = r.Result().(*NodeBalancersPagedResponse).Pages
 			results = r.Result().(*NodeBalancersPagedResponse).Results
 			v.appendData(r.Result().(*NodeBalancersPagedResponse))
 		}
-	case *TagsPagedResponse:
-		if r, err = coupleAPIErrors(req.SetResult(TagsPagedResponse{}).Get(v.endpoint(c))); err == nil {
-			pages = r.Result().(*TagsPagedResponse).Pages
-			results = r.Result().(*TagsPagedResponse).Results
-			v.appendData(r.Result().(*TagsPagedResponse))
-		}
-	case *TokensPagedResponse:
-		if r, err = coupleAPIErrors(req.SetResult(TokensPagedResponse{}).Get(v.endpoint(c))); err == nil {
-			pages = r.Result().(*TokensPagedResponse).Pages
-			results = r.Result().(*TokensPagedResponse).Results
-			v.appendData(r.Result().(*TokensPagedResponse))
-		}
-	case *UsersPagedResponse:
-		if r, err = coupleAPIErrors(req.SetResult(UsersPagedResponse{}).Get(v.endpoint(c))); err == nil {
-			pages = r.Result().(*UsersPagedResponse).Pages
-			results = r.Result().(*UsersPagedResponse).Results
-			v.appendData(r.Result().(*UsersPagedResponse))
-		}
 	/**
+	case AccountOauthClientsPagedResponse:
+		if r, err = req.SetResult(v).Get(v.endpoint(c)); r.Error() != nil {
+			return NewError(r)
+		} else if err == nil {
+			pages = r.Result().(*AccountOauthClientsPagedResponse).Pages
+			results = r.Result().(*AccountOauthClientsPagedResponse).Results
+			v.appendData(r.Result().(*AccountOauthClientsPagedResponse))
+		}
+	case AccountPaymentsPagedResponse:
+		if r, err = req.SetResult(v).Get(v.endpoint(c)); r.Error() != nil {
+			return NewError(r)
+		} else if err == nil {
+			pages = r.Result().(*AccountPaymentsPagedResponse).Pages
+			results = r.Result().(*AccountPaymentsPagedResponse).Results
+			v.appendData(r.Result().(*AccountPaymentsPagedResponse))
+		}
+	case AccountUsersPagedResponse:
+		if r, err = req.SetResult(v).Get(v.endpoint(c)); r.Error() != nil {
+			return NewError(r)
+		} else if err == nil {
+			pages = r.Result().(*AccountUsersPagedResponse).Pages
+			results = r.Result().(*AccountUsersPagedResponse).Results
+			v.appendData(r.Result().(*AccountUsersPagedResponse))
+		}
 	case ProfileAppsPagedResponse:
+		if r, err = req.SetResult(v).Get(v.endpoint(c)); r.Error() != nil {
+			return NewError(r)
+		} else if err == nil {
+			pages = r.Result().(*ProfileAppsPagedResponse).Pages
+			results = r.Result().(*ProfileAppsPagedResponse).Results
+			v.appendData(r.Result().(*ProfileAppsPagedResponse))
+		}
+	case ProfileTokensPagedResponse:
+		if r, err = req.SetResult(v).Get(v.endpoint(c)); r.Error() != nil {
+			return NewError(r)
+		} else if err == nil {
+			pages = r.Result().(*ProfileTokensPagedResponse).Pages
+			results = r.Result().(*ProfileTokensPagedResponse).Results
+			v.appendData(r.Result().(*ProfileTokensPagedResponse))
+		}
 	case ProfileWhitelistPagedResponse:
+		if r, err = req.SetResult(v).Get(v.endpoint(c)); r.Error() != nil {
+			return NewError(r)
+		} else if err == nil {
+			pages = r.Result().(*ProfileWhitelistPagedResponse).Pages
+			results = r.Result().(*ProfileWhitelistPagedResponse).Results
+			v.appendData(r.Result().(*ProfileWhitelistPagedResponse))
+		}
 	case ManagedContactsPagedResponse:
+		if r, err = req.SetResult(v).Get(v.endpoint(c)); r.Error() != nil {
+			return NewError(r)
+		} else if err == nil {
+			pages = r.Result().(*ManagedContactsPagedResponse).Pages
+			results = r.Result().(*ManagedContactsPagedResponse).Results
+			v.appendData(r.Result().(*ManagedContactsPagedResponse))
+		}
 	case ManagedCredentialsPagedResponse:
+		if r, err = req.SetResult(v).Get(v.endpoint(c)); r.Error() != nil {
+			return NewError(r)
+		} else if err == nil {
+			pages = r.Result().(*ManagedCredentialsPagedResponse).Pages
+			results = r.Result().(*ManagedCredentialsPagedResponse).Results
+			v.appendData(r.Result().(*ManagedCredentialsPagedResponse))
+		}
 	case ManagedIssuesPagedResponse:
+		if r, err = req.SetResult(v).Get(v.endpoint(c)); r.Error() != nil {
+			return NewError(r)
+		} else if err == nil {
+			pages = r.Result().(*ManagedIssuesPagedResponse).Pages
+			results = r.Result().(*ManagedIssuesPagedResponse).Results
+			v.appendData(r.Result().(*ManagedIssuesPagedResponse))
+		}
 	case ManagedLinodeSettingsPagedResponse:
+		if r, err = req.SetResult(v).Get(v.endpoint(c)); r.Error() != nil {
+			return NewError(r)
+		} else if err == nil {
+			pages = r.Result().(*ManagedLinodeSettingsPagedResponse).Pages
+			results = r.Result().(*ManagedLinodeSettingsPagedResponse).Results
+			v.appendData(r.Result().(*ManagedLinodeSettingsPagedResponse))
+		}
 	case ManagedServicesPagedResponse:
+		if r, err = req.SetResult(v).Get(v.endpoint(c)); r.Error() != nil {
+			return NewError(r)
+		} else if err == nil {
+			pages = r.Result().(*ManagedServicesPagedResponse).Pages
+			results = r.Result().(*ManagedServicesPagedResponse).Results
+			v.appendData(r.Result().(*ManagedServicesPagedResponse))
+		}
 	**/
 	default:
 		log.Fatalf("listHelper interface{} %+v used", i)
@@ -227,7 +278,7 @@ func (c *Client) listHelper(ctx context.Context, i interface{}, opts *ListOption
 	}
 
 	if opts == nil {
-		for page := 2; page <= pages; page++ {
+		for page := 2; page <= pages; page = page + 1 {
 			if err := c.listHelper(ctx, i, &ListOptions{PageOptions: &PageOptions{Page: page}}); err != nil {
 				return err
 			}
@@ -238,7 +289,7 @@ func (c *Client) listHelper(ctx context.Context, i interface{}, opts *ListOption
 		}
 
 		if opts.Page == 0 {
-			for page := 2; page <= pages; page++ {
+			for page := 2; page <= pages; page = page + 1 {
 				opts.Page = page
 				if err := c.listHelper(ctx, i, opts); err != nil {
 					return err
@@ -257,7 +308,7 @@ func (c *Client) listHelper(ctx context.Context, i interface{}, opts *ListOption
 // When opts (or opts.Page) is nil, all pages will be fetched and
 // returned in a single (endpoint-specific)PagedResponse
 // opts.results and opts.pages will be updated from the API response
-func (c *Client) listHelperWithID(ctx context.Context, i interface{}, idRaw interface{}, opts *ListOptions) error {
+func (c *Client) listHelperWithID(ctx context.Context, i interface{}, id int, opts *ListOptions) error {
 	req := c.R(ctx)
 	if opts != nil && opts.Page > 0 {
 		req.SetQueryParam("page", strconv.Itoa(opts.Page))
@@ -269,8 +320,6 @@ func (c *Client) listHelperWithID(ctx context.Context, i interface{}, idRaw inte
 		results int
 		r       *resty.Response
 	)
-
-	id, _ := idRaw.(int)
 
 	if opts != nil && len(opts.Filter) > 0 {
 		req.SetHeader("X-Filter", opts.Filter)
@@ -287,7 +336,7 @@ func (c *Client) listHelperWithID(ctx context.Context, i interface{}, idRaw inte
 		if r, err = coupleAPIErrors(req.SetResult(DomainRecordsPagedResponse{}).Get(v.endpointWithID(c, id))); err == nil {
 			response, ok := r.Result().(*DomainRecordsPagedResponse)
 			if !ok {
-				return fmt.Errorf("response is not a *DomainRecordsPagedResponse")
+				return fmt.Errorf("Response is not a *DomainRecordsPagedResponse")
 			}
 			pages = response.Pages
 			results = response.Results
@@ -317,14 +366,6 @@ func (c *Client) listHelperWithID(ctx context.Context, i interface{}, idRaw inte
 			results = r.Result().(*InstanceVolumesPagedResponse).Results
 			v.appendData(r.Result().(*InstanceVolumesPagedResponse))
 		}
-	case *TaggedObjectsPagedResponse:
-		idStr := idRaw.(string)
-
-		if r, err = coupleAPIErrors(req.SetResult(TaggedObjectsPagedResponse{}).Get(v.endpointWithID(c, idStr))); err == nil {
-			pages = r.Result().(*TaggedObjectsPagedResponse).Pages
-			results = r.Result().(*TaggedObjectsPagedResponse).Results
-			v.appendData(r.Result().(*TaggedObjectsPagedResponse))
-		}
 	/**
 	case TicketAttachmentsPagedResponse:
 		if r, err = req.SetResult(v).Get(v.endpoint(c)); r.Error() != nil {
@@ -352,7 +393,7 @@ func (c *Client) listHelperWithID(ctx context.Context, i interface{}, idRaw inte
 	}
 
 	if opts == nil {
-		for page := 2; page <= pages; page++ {
+		for page := 2; page <= pages; page = page + 1 {
 			if err := c.listHelperWithID(ctx, i, id, &ListOptions{PageOptions: &PageOptions{Page: page}}); err != nil {
 				return err
 			}
@@ -362,7 +403,7 @@ func (c *Client) listHelperWithID(ctx context.Context, i interface{}, idRaw inte
 			opts.PageOptions = &PageOptions{}
 		}
 		if opts.Page == 0 {
-			for page := 2; page <= pages; page++ {
+			for page := 2; page <= pages; page = page + 1 {
 				opts.Page = page
 				if err := c.listHelperWithID(ctx, i, id, opts); err != nil {
 					return err
@@ -415,7 +456,7 @@ func (c *Client) listHelperWithTwoIDs(ctx context.Context, i interface{}, firstI
 	}
 
 	if opts == nil {
-		for page := 2; page <= pages; page++ {
+		for page := 2; page <= pages; page = page + 1 {
 			if err := c.listHelper(ctx, i, &ListOptions{PageOptions: &PageOptions{Page: page}}); err != nil {
 				return err
 			}
@@ -425,7 +466,7 @@ func (c *Client) listHelperWithTwoIDs(ctx context.Context, i interface{}, firstI
 			opts.PageOptions = &PageOptions{}
 		}
 		if opts.Page == 0 {
-			for page := 2; page <= pages; page++ {
+			for page := 2; page <= pages; page = page + 1 {
 				opts.Page = page
 				if err := c.listHelperWithTwoIDs(ctx, i, firstID, secondID, opts); err != nil {
 					return err

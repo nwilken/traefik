@@ -76,10 +76,10 @@ func (client *Client) CheckDomainRecordWithCallback(request *CheckDomainRecordRe
 // CheckDomainRecordRequest is the request struct for api CheckDomainRecord
 type CheckDomainRecordRequest struct {
 	*requests.RpcRequest
-	RR           string `position:"Query" name:"RR"`
+	Lang         string `position:"Query" name:"Lang"`
 	UserClientIp string `position:"Query" name:"UserClientIp"`
 	DomainName   string `position:"Query" name:"DomainName"`
-	Lang         string `position:"Query" name:"Lang"`
+	RR           string `position:"Query" name:"RR"`
 	Type         string `position:"Query" name:"Type"`
 	Value        string `position:"Query" name:"Value"`
 }
@@ -96,7 +96,7 @@ func CreateCheckDomainRecordRequest() (request *CheckDomainRecordRequest) {
 	request = &CheckDomainRecordRequest{
 		RpcRequest: &requests.RpcRequest{},
 	}
-	request.InitWithApiInfo("Alidns", "2015-01-09", "CheckDomainRecord", "Alidns", "openAPI")
+	request.InitWithApiInfo("Alidns", "2015-01-09", "CheckDomainRecord", "", "")
 	return
 }
 

@@ -18,11 +18,10 @@ import (
 	"bytes"
 	"encoding/xml"
 	"fmt"
+	"github.com/aliyun/alibaba-cloud-sdk-go/sdk/errors"
 	"io/ioutil"
 	"net/http"
 	"strings"
-
-	"github.com/aliyun/alibaba-cloud-sdk-go/sdk/errors"
 )
 
 type AcsResponse interface {
@@ -35,7 +34,6 @@ type AcsResponse interface {
 	parseFromHttpResponse(httpResponse *http.Response) error
 }
 
-// Unmarshal object from http response body to target Response
 func Unmarshal(response AcsResponse, httpResponse *http.Response, format string) (err error) {
 	err = response.parseFromHttpResponse(httpResponse)
 	if err != nil {
@@ -45,8 +43,7 @@ func Unmarshal(response AcsResponse, httpResponse *http.Response, format string)
 		err = errors.NewServerError(response.GetHttpStatus(), response.GetHttpContentString(), "")
 		return
 	}
-
-	if _, isCommonResponse := response.(*CommonResponse); isCommonResponse {
+	if _, isCommonResponse := response.(CommonResponse); isCommonResponse {
 		// common response need not unmarshal
 		return
 	}
@@ -56,6 +53,7 @@ func Unmarshal(response AcsResponse, httpResponse *http.Response, format string)
 	}
 
 	if strings.ToUpper(format) == "JSON" {
+		initJsonParserOnce()
 		err = jsonParser.Unmarshal(response.GetHttpContentBytes(), response)
 		if err != nil {
 			err = errors.NewClientError(errors.JsonUnmarshalErrorCode, errors.JsonUnmarshalErrorMessage, err)
@@ -119,7 +117,7 @@ func (baseResponse *BaseResponse) parseFromHttpResponse(httpResponse *http.Respo
 func (baseResponse *BaseResponse) String() string {
 	resultBuilder := bytes.Buffer{}
 	// statusCode
-	// resultBuilder.WriteString("\n")
+	resultBuilder.WriteString("\n")
 	resultBuilder.WriteString(fmt.Sprintf("%s %s\n", baseResponse.originHttpResponse.Proto, baseResponse.originHttpResponse.Status))
 	// httpHeaders
 	//resultBuilder.WriteString("Headers:\n")

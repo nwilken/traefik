@@ -10,5 +10,4 @@ type ProductServer struct {
 	propMemoryMB                     // メモリサイズ(MB単位)
 	propServiceClass                 // サービスクラス
 	Generation       PlanGenerations `json:",omitempty"` // 世代
-	Commitment       ECommitment     `json:",omitempty"`
 }

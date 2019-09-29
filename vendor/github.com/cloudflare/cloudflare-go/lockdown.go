@@ -16,7 +16,6 @@ type ZoneLockdown struct {
 	URLs           []string             `json:"urls"`
 	Configurations []ZoneLockdownConfig `json:"configurations"`
 	Paused         bool                 `json:"paused"`
-	Priority       int                  `json:"priority,omitempty"`
 }
 
 // ZoneLockdownConfig represents a Zone Lockdown config, which comprises
@@ -66,7 +65,7 @@ func (api *API) CreateZoneLockdown(zoneID string, ld ZoneLockdown) (*ZoneLockdow
 //
 // API reference: https://api.cloudflare.com/#zone-ZoneLockdown-update-ZoneLockdown-rule
 func (api *API) UpdateZoneLockdown(zoneID string, id string, ld ZoneLockdown) (*ZoneLockdownResponse, error) {
-	uri := "/zones/" + zoneID + "/firewall/lockdowns/" + id
+	uri := "/zones/" + zoneID + "/firewall/lockdowns"
 	res, err := api.makeRequest("PUT", uri, ld)
 	if err != nil {
 		return nil, errors.Wrap(err, errMakeRequestError)

@@ -44,7 +44,6 @@ import (
 	"github.com/go-acme/lego/providers/dns/mydnsjp"
 	"github.com/go-acme/lego/providers/dns/namecheap"
 	"github.com/go-acme/lego/providers/dns/namedotcom"
-	"github.com/go-acme/lego/providers/dns/namesilo"
 	"github.com/go-acme/lego/providers/dns/netcup"
 	"github.com/go-acme/lego/providers/dns/nifcloud"
 	"github.com/go-acme/lego/providers/dns/ns1"
@@ -60,7 +59,6 @@ import (
 	"github.com/go-acme/lego/providers/dns/stackpath"
 	"github.com/go-acme/lego/providers/dns/transip"
 	"github.com/go-acme/lego/providers/dns/vegadns"
-	"github.com/go-acme/lego/providers/dns/versio"
 	"github.com/go-acme/lego/providers/dns/vscale"
 	"github.com/go-acme/lego/providers/dns/vultr"
 	"github.com/go-acme/lego/providers/dns/zoneee"
@@ -149,8 +147,6 @@ func NewDNSChallengeProviderByName(name string) (challenge.Provider, error) {
 		return namecheap.NewDNSProvider()
 	case "namedotcom":
 		return namedotcom.NewDNSProvider()
-	case "namesilo":
-		return namesilo.NewDNSProvider()
 	case "netcup":
 		return netcup.NewDNSProvider()
 	case "nifcloud":
@@ -181,8 +177,6 @@ func NewDNSChallengeProviderByName(name string) (challenge.Provider, error) {
 		return transip.NewDNSProvider()
 	case "vegadns":
 		return vegadns.NewDNSProvider()
-	case "versio":
-		return versio.NewDNSProvider()
 	case "vultr":
 		return vultr.NewDNSProvider()
 	case "vscale":
@@ -190,6 +184,6 @@ func NewDNSChallengeProviderByName(name string) (challenge.Provider, error) {
 	case "zoneee":
 		return zoneee.NewDNSProvider()
 	default:
-		return nil, fmt.Errorf("unrecognized DNS provider: %s", name)
+		return nil, fmt.Errorf("unrecognised DNS provider: %s", name)
 	}
 }

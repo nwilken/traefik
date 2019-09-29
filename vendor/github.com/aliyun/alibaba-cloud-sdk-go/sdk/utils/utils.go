@@ -16,33 +16,25 @@ package utils
 
 import (
 	"crypto/md5"
-	"crypto/rand"
 	"encoding/base64"
 	"encoding/hex"
-	"hash"
-	rand2 "math/rand"
+	"encoding/json"
+	"fmt"
+	"github.com/satori/go.uuid"
 	"net/url"
 	"reflect"
 	"strconv"
 	"time"
 )
 
-type UUID [16]byte
+// if you use go 1.10 or higher, you can hack this util by these to avoid "TimeZone.zip not found" on Windows
+var LoadLocationFromTZData func(name string, data []byte) (*time.Location, error) = nil
+var TZData []byte = nil
 
-const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-
-func GetUUID() (uuidHex string) {
-	uuid := NewUUID()
-	uuidHex = hex.EncodeToString(uuid[:])
+func GetUUIDV4() (uuidHex string) {
+	uuidV4 := uuid.NewV4()
+	uuidHex = hex.EncodeToString(uuidV4.Bytes())
 	return
-}
-
-func RandStringBytes(n int) string {
-	b := make([]byte, n)
-	for i := range b {
-		b[i] = letterBytes[rand2.Intn(len(letterBytes))]
-	}
-	return string(b)
 }
 
 func GetMD5Base64(bytes []byte) (base64Value string) {
@@ -53,15 +45,29 @@ func GetMD5Base64(bytes []byte) (base64Value string) {
 	return
 }
 
-func GetTimeInFormatISO8601() (timeStr string) {
-	gmt := time.FixedZone("GMT", 0)
+func GetGMTLocation() (*time.Location, error) {
+	if LoadLocationFromTZData != nil && TZData != nil {
+		return LoadLocationFromTZData("GMT", TZData)
+	} else {
+		return time.LoadLocation("GMT")
+	}
+}
 
+func GetTimeInFormatISO8601() (timeStr string) {
+	gmt, err := GetGMTLocation()
+
+	if err != nil {
+		panic(err)
+	}
 	return time.Now().In(gmt).Format("2006-01-02T15:04:05Z")
 }
 
 func GetTimeInFormatRFC2616() (timeStr string) {
-	gmt := time.FixedZone("GMT", 0)
+	gmt, err := GetGMTLocation()
 
+	if err != nil {
+		panic(err)
+	}
 	return time.Now().In(gmt).Format("Mon, 02 Jan 2006 15:04:05 GMT")
 }
 
@@ -71,6 +77,17 @@ func GetUrlFormedMap(source map[string]string) (urlEncoded string) {
 		urlEncoder.Add(key, value)
 	}
 	urlEncoded = urlEncoder.Encode()
+	return
+}
+
+func GetFromJsonString(jsonString, key string) (result string, err error) {
+	var responseMap map[string]*json.RawMessage
+	err = json.Unmarshal([]byte(jsonString), &responseMap)
+	if err != nil {
+		return
+	}
+	fmt.Println(string(*responseMap[key]))
+	err = json.Unmarshal(*responseMap[key], &result)
 	return
 }
 
@@ -97,45 +114,4 @@ func InitStructWithDefaultTag(bean interface{}) {
 			setter.SetBool(boolValue)
 		}
 	}
-}
-
-func NewUUID() UUID {
-	ns := UUID{}
-	safeRandom(ns[:])
-	u := newFromHash(md5.New(), ns, RandStringBytes(16))
-	u[6] = (u[6] & 0x0f) | (byte(2) << 4)
-	u[8] = (u[8]&(0xff>>2) | (0x02 << 6))
-
-	return u
-}
-
-func newFromHash(h hash.Hash, ns UUID, name string) UUID {
-	u := UUID{}
-	h.Write(ns[:])
-	h.Write([]byte(name))
-	copy(u[:], h.Sum(nil))
-
-	return u
-}
-
-func safeRandom(dest []byte) {
-	if _, err := rand.Read(dest); err != nil {
-		panic(err)
-	}
-}
-
-func (u UUID) String() string {
-	buf := make([]byte, 36)
-
-	hex.Encode(buf[0:8], u[0:4])
-	buf[8] = '-'
-	hex.Encode(buf[9:13], u[4:6])
-	buf[13] = '-'
-	hex.Encode(buf[14:18], u[6:8])
-	buf[18] = '-'
-	hex.Encode(buf[19:23], u[8:10])
-	buf[23] = '-'
-	hex.Encode(buf[24:], u[10:])
-
-	return string(buf)
 }

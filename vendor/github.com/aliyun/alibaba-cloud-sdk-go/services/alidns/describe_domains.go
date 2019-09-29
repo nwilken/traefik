@@ -76,23 +76,21 @@ func (client *Client) DescribeDomainsWithCallback(request *DescribeDomainsReques
 // DescribeDomainsRequest is the request struct for api DescribeDomains
 type DescribeDomainsRequest struct {
 	*requests.RpcRequest
-	ResourceGroupId string           `position:"Query" name:"ResourceGroupId"`
-	GroupId         string           `position:"Query" name:"GroupId"`
-	UserClientIp    string           `position:"Query" name:"UserClientIp"`
-	PageSize        requests.Integer `position:"Query" name:"PageSize"`
-	SearchMode      string           `position:"Query" name:"SearchMode"`
-	Lang            string           `position:"Query" name:"Lang"`
-	KeyWord         string           `position:"Query" name:"KeyWord"`
-	PageNumber      requests.Integer `position:"Query" name:"PageNumber"`
+	Lang         string           `position:"Query" name:"Lang"`
+	UserClientIp string           `position:"Query" name:"UserClientIp"`
+	KeyWord      string           `position:"Query" name:"KeyWord"`
+	GroupId      string           `position:"Query" name:"GroupId"`
+	PageNumber   requests.Integer `position:"Query" name:"PageNumber"`
+	PageSize     requests.Integer `position:"Query" name:"PageSize"`
 }
 
 // DescribeDomainsResponse is the response struct for api DescribeDomains
 type DescribeDomainsResponse struct {
 	*responses.BaseResponse
 	RequestId  string  `json:"RequestId" xml:"RequestId"`
-	TotalCount int64   `json:"TotalCount" xml:"TotalCount"`
-	PageNumber int64   `json:"PageNumber" xml:"PageNumber"`
-	PageSize   int64   `json:"PageSize" xml:"PageSize"`
+	TotalCount int     `json:"TotalCount" xml:"TotalCount"`
+	PageNumber int     `json:"PageNumber" xml:"PageNumber"`
+	PageSize   int     `json:"PageSize" xml:"PageSize"`
 	Domains    Domains `json:"Domains" xml:"Domains"`
 }
 
@@ -101,7 +99,7 @@ func CreateDescribeDomainsRequest() (request *DescribeDomainsRequest) {
 	request = &DescribeDomainsRequest{
 		RpcRequest: &requests.RpcRequest{},
 	}
-	request.InitWithApiInfo("Alidns", "2015-01-09", "DescribeDomains", "Alidns", "openAPI")
+	request.InitWithApiInfo("Alidns", "2015-01-09", "DescribeDomains", "", "")
 	return
 }
 

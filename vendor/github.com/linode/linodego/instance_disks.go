@@ -14,7 +14,7 @@ type InstanceDisk struct {
 
 	ID         int            `json:"id"`
 	Label      string         `json:"label"`
-	Status     DiskStatus     `json:"status"`
+	Status     string         `json:"status"`
 	Size       int            `json:"size"`
 	Filesystem DiskFilesystem `json:"filesystem"`
 	Created    time.Time      `json:"-"`
@@ -31,16 +31,6 @@ const (
 	FilesystemExt3   DiskFilesystem = "ext3"
 	FilesystemExt4   DiskFilesystem = "ext4"
 	FilesystemInitrd DiskFilesystem = "initrd"
-)
-
-// DiskStatus constants have the prefix "Disk" and include Linode API Instance Disk Status
-type DiskStatus string
-
-// DiskStatus constants represent the status values an Instance Disk may have
-const (
-	DiskReady    DiskStatus = "ready"
-	DiskNotReady DiskStatus = "not ready"
-	DiskDeleting DiskStatus = "deleting"
 )
 
 // InstanceDisksPagedResponse represents a paginated InstanceDisk API response
@@ -185,13 +175,13 @@ func (c *Client) RenameInstanceDisk(ctx context.Context, linodeID int, diskID in
 }
 
 // ResizeInstanceDisk resizes the size of the Instance disk
-func (c *Client) ResizeInstanceDisk(ctx context.Context, linodeID int, diskID int, size int) error {
+func (c *Client) ResizeInstanceDisk(ctx context.Context, linodeID int, diskID int, size int) (*InstanceDisk, error) {
 	var body string
 	e, err := c.InstanceDisks.endpointWithID(linodeID)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	e = fmt.Sprintf("%s/%d/resize", e, diskID)
+	e = fmt.Sprintf("%s/%d", e, diskID)
 
 	req := c.R(ctx).SetResult(&InstanceDisk{})
 	updateOpts := map[string]interface{}{
@@ -201,41 +191,17 @@ func (c *Client) ResizeInstanceDisk(ctx context.Context, linodeID int, diskID in
 	if bodyData, err := json.Marshal(updateOpts); err == nil {
 		body = string(bodyData)
 	} else {
-		return NewError(err)
+		return nil, NewError(err)
 	}
 
-	_, err = coupleAPIErrors(req.
+	r, err := coupleAPIErrors(req.
 		SetBody(body).
 		Post(e))
 
-	return err
-}
-
-// PasswordResetInstanceDisk resets the "root" account password on the Instance disk
-func (c *Client) PasswordResetInstanceDisk(ctx context.Context, linodeID int, diskID int, password string) error {
-	var body string
-	e, err := c.InstanceDisks.endpointWithID(linodeID)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	e = fmt.Sprintf("%s/%d/password", e, diskID)
-
-	req := c.R(ctx).SetResult(&InstanceDisk{})
-	updateOpts := map[string]interface{}{
-		"password": password,
-	}
-
-	if bodyData, err := json.Marshal(updateOpts); err == nil {
-		body = string(bodyData)
-	} else {
-		return NewError(err)
-	}
-
-	_, err = coupleAPIErrors(req.
-		SetBody(body).
-		Post(e))
-
-	return err
+	return r.Result().(*InstanceDisk).fixDates(), nil
 }
 
 // DeleteInstanceDisk deletes a Linode Instance Disk
