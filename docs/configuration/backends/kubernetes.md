@@ -283,6 +283,7 @@ The following annotations are applicable on the Service object associated with a
 | `traefik.ingress.kubernetes.io/max-conn-amount: "10"`                    | Sets the maximum number of simultaneous connections to the backend.<br>Must be used in conjunction with the label below to take effect.                                               |
 | `traefik.ingress.kubernetes.io/max-conn-extractor-func: client.ip`       | Set the function to be used against the request to determine what to limit maximum connections to the backend by.<br>Must be used in conjunction with the above label to take effect. |
 | `traefik.ingress.kubernetes.io/session-cookie-name: <NAME>`              | Manually set the cookie name for sticky sessions.                                                                                                                                     |
+| `traefik.ingress.kubernetes.io/session-cookie-path: <PATH>`              | Manually set the cookie path for sticky sessions.                                                                                                                                     |
 
 <1> `traefik.ingress.kubernetes.io/buffering` example:
 
