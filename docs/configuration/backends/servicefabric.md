@@ -69,8 +69,6 @@ Here is an example of an extension setting Traefik labels:
 </StatelessServiceType>
 ```
 
-> **Note**: The `Label` tag and its `Key` attribute are case sensitive. That is, if you use `label` instead of `Label` or `key` instead of `Key`, they will be silently ignored.
-
 #### Property Manager
 
 Set Labels with the property manager API to overwrite and add labels, while your service is running.
