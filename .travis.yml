@@ -13,7 +13,6 @@ env:
     - VERSION: $TRAVIS_TAG
     - CODENAME: maroilles
     - N_MAKE_JOBS: 2
-    - DOCS_VERIFY_SKIP: true
 
 script:
 - echo "Skipping tests... (Tests are executed on SemaphoreCI)"
